@@ -5,8 +5,14 @@ var parseString = require('xml2js').parseString;
 var fs = require("fs")
 var path = require("path")
 
-var INPUT_FILE = "./test/data/changecolor.graphml"
+var INPUT_FILE = null
 var OUTPUT_FILE = null
+
+if(INPUT_FILE == null)
+{
+    console.log("Missing Argument\r\nRequire:\r\n\t -in <input file graphml> \r\nOptional: \r\n\t -out <output file name>")
+    process.exit()    
+}
 
 // Begin processEnviroment 
 for (var i = 0; i < process.argv.length; i++) {
