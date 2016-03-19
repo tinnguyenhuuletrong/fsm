@@ -1,0 +1,22 @@
+{
+  "name": "fsm",
+  "version": "1.0.0",
+  "description": "Finite State Machine",
+  "main": "fsm.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinnguyenhuuletrong/fsm.git"
+  },
+  "keywords": [
+    "fsm"
+  ],
+  "author": "TinNguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tinnguyenhuuletrong/fsm/issues"
+  },
+  "homepage": "https://github.com/tinnguyenhuuletrong/fsm#readme"
+}
