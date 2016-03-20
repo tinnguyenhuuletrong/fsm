@@ -8,11 +8,6 @@ var path = require("path")
 var INPUT_FILE = null
 var OUTPUT_FILE = null
 
-if(INPUT_FILE == null)
-{
-    console.log("Missing Argument\r\nRequire:\r\n\t -in <input file graphml> \r\nOptional: \r\n\t -out <output file name>")
-    process.exit()    
-}
 
 // Begin processEnviroment 
 for (var i = 0; i < process.argv.length; i++) {
@@ -22,6 +17,12 @@ for (var i = 0; i < process.argv.length; i++) {
 	else if (key == "-out")
 		OUTPUT_FILE = process.argv[i + 1]
 };
+
+if(INPUT_FILE == null)
+{
+    console.log("Missing Argument\r\nRequire:\r\n\t -in <input file graphml> \r\nOptional: \r\n\t -out <output file name>")
+    process.exit()    
+}
 
 // Processing
 var xml = fs.readFileSync(INPUT_FILE, "utf8");
@@ -101,6 +102,9 @@ function parseState(RawData, FSMData) {
 				var isDefault = label[0] === '*'
 				var isTrigger = label[0] === '+'
 				var isFunction = shape === 'roundrectangle'
+                
+                if(isDefault || isTrigger)
+                    label = label.slice(1)
 
 				console.log("Add State: ", label, shape, info)
 
