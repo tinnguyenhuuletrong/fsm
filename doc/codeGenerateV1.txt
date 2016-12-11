@@ -1,0 +1,40 @@
+JS:
+	
+	Transition
+		-nextState
+		+OnEvaluate		-> (state, scope) return nextState
+
+	[Plugin] -> TimeCounter,...
+	BaseState
+		+OnEnter	-> [Plugin_Injection_Enter]
+		+OnUpdate 	-> [Plugin_Injection_Update]
+		+OnExit		-> [Plugin_Injection_Exit]
+		+OnEvent 	-> [Plugin_Injection_Event]
+
+		+OnPause
+		+OnResume
+
+		-[Plugin_Injection_State]
+
+
+	State => JS file extend BaseState
+		-transitions 
+
+
+	StateMachine
+		-stackState
+
+		+OnUpdate
+		+OnEvent
+
+		+PushState		-> Interupt
+		+PopState	   	-> Resume next state
+		+ReplaceState  
+
+
+Ex:
+	ChangeColor
+		transition
+			if( state.pTimeCounter.sinceStart > 10 )
+				return "Sleep"
+
