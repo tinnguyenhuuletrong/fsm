@@ -1,1 +1,4 @@
 node_modules
+/codeBase/cs/FsmCodeBase/FsmCodeBase/bin
+/codeBase/cs/FsmCodeBase/FsmCodeBase/obj
+/codeBase/cs/FsmCodeBase/.vs/FsmCodeBase/v14/*.suo
