@@ -23,7 +23,8 @@ doT.templateSettings = {
 };
 
 var VALID_MODE = {
-	"js": processingJS
+	"js": processingJS,
+	"cs": processingCS
 }
 
 var INPUT_FILE = null
@@ -63,43 +64,66 @@ console.log("[FSM-Generator] Begin parsing data.... \n")
 var xml = fs.readFileSync(INPUT_FILE, "utf8");
 Lib.parseXml(xml, FSMData => {
 	console.log("\n[FSM-Generator] End parsing data")
+
+	ensureDirectory('')
+
 	VALID_MODE[MODE](FSMData)
 })
+
+function capitalize(str) {
+    return str.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
 
 function readTemplateFileContent(name) {
 	return fs.readFileSync(TemplateFolder + "/" + name, "utf8");
 }
 
 function isFileExit(name) {
-	return fs.existsSync(OUTPUT_FILE +  "/" + name)
+	return fs.existsSync(OUTPUT_FILE + "/" + name)
+}
+
+function ensureDirectory(name) {
+	if (!isFileExit(name))
+		fs.mkdirSync(OUTPUT_FILE + "/" + name);
 }
 
 function exportContent(name, renderFunc, data) {
-	fs.writeFileSync(OUTPUT_FILE +  "/" + name, renderFunc(data))
+	fs.writeFileSync(OUTPUT_FILE + "/" + name, renderFunc(data))
 }
 
-function processingJS(FSMData) {
-	console.log(FSMData)
+function camelize(str) {
+	return str.replace(/\W+(.)/g, function(match, chr) {
+		return chr.toUpperCase();
+	});
+}
 
-	var stateLogicRender = doT.template(readTemplateFileContent("state.logic.js"))
-	var stateEvalRender = doT.template(readTemplateFileContent("state.evaluate.js"))
-	var stateIndexRender = doT.template(readTemplateFileContent("index.js"))
+function getFsmName() {
+	let tmp = path.basename(INPUT_FILE)
+	tmp = tmp.split('.')
+	tmp.splice(-1,1)
+	return capitalize(camelize(tmp.join(' ')));
+}
 
+function formatData(FSMData) {
 	const States = FSMData.FiniteStateMachine.State
 	const Conditions = FSMData.FiniteStateMachine.Condition
 
 	const indexData = {
-		states: {}
+		states: {},
+		FsmName: getFsmName(),
+		StateDataName: getFsmName() + "StateData",
 	}
 	const stateData = States.map(itm => {
-		
+
 		// update state Index
 		indexData.states[itm.StateName] = 1
-		if(itm.StateDefault == "true")
+		if (itm.StateDefault == "true")
 			indexData.default = itm.StateName
 
 
 		return {
+			FsmName: getFsmName(),
+			StateDataName: getFsmName() + "StateData",
 			StateName: itm.StateName,
 			Fields: itm.Fields,
 			_idx: itm._idx,
@@ -113,12 +137,29 @@ function processingJS(FSMData) {
 		}
 	})
 
+	return {
+		stateData: stateData,
+		indexData: indexData
+	}
+}
+
+function processingJS(FSMData) {
+	console.log(FSMData)
+
+	var stateLogicRender = doT.template(readTemplateFileContent("state.logic.js"))
+	var stateEvalRender = doT.template(readTemplateFileContent("state.evaluate.js"))
+	var stateIndexRender = doT.template(readTemplateFileContent("index.js"))
+
+	const {
+		stateData,
+		indexData
+	} = formatData(FSMData)
 
 	stateData.forEach(itm => {
 		const name = itm.StateName
 
 		// State Logic Exit ignore it
-		if(!isFileExit(name)) {
+		if (!isFileExit(name)) {
 			exportContent(name + ".js", stateLogicRender, itm)
 		}
 
@@ -126,4 +167,37 @@ function processingJS(FSMData) {
 	})
 
 	exportContent("index.js", stateIndexRender, indexData)
+}
+
+function processingCS(FSMData) {
+	console.log(FSMData)
+
+	var fsmName = getFsmName()
+
+	ensureDirectory("Generated")
+	ensureDirectory("Logic")
+
+	var stateLogicRender = doT.template(readTemplateFileContent("Generated/StateLogic.Evaluate.cs"))
+	var stateEvalRender = doT.template(readTemplateFileContent("Logic/StateLogic.cs"))
+	var stateIndexRender = doT.template(readTemplateFileContent("State.Index.cs"))
+	var stateDataRender = doT.template(readTemplateFileContent("State.StateData.cs"))
+
+	const {
+		stateData,
+		indexData
+	} = formatData(FSMData)
+
+	stateData.forEach(itm => {
+		const name = itm.StateName
+
+		// State Logic Exit ignore it
+		if (!isFileExit(name)) {
+			exportContent("Generated/" + name + ".cs", stateLogicRender, itm)
+		}
+
+		exportContent("Logic/" + name + ".Evaluate.cs", stateEvalRender, itm)
+	})
+
+	exportContent(fsmName + ".Index.cs", stateIndexRender, indexData)
+	exportContent(fsmName + ".StateData.cs", stateDataRender, indexData)
 }
