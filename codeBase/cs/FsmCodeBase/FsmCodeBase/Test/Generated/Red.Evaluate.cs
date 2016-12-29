@@ -1,15 +1,20 @@
 ﻿using System;
 using FsmCodeBase;
 
-namespace FsmCodeBase.Test
+// Auto Generated. Don't modify it
+
+namespace Fsm.Generated.FsmColor
 {
     partial class Red
     {
         public override string _Evaluate(StateMachine context)
         {
             var stateData = (FsmColorStateData)context.StateData;
-            if (stateData.timeSinceEnter > 2000)
+         
+            
+            if(stateData.timeSinceEnter > 2000)
                 return "Green";
+            
 
             return null;
         }

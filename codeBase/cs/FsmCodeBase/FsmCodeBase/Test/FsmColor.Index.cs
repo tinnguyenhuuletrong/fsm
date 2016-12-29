@@ -1,23 +1,31 @@
 ﻿using System;
+using FsmCodeBase;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FsmCodeBase.Test
+namespace Fsm.Generated.FsmColor
 {
     static class FsmColorIndex
     {
+        ///
+        /// Get State Database
+        ///
         public static Dictionary<string, BaseState> GetStateDB()
         {
             Dictionary<string, BaseState> db = new Dictionary<string, BaseState>();
-            db["Red"] = new FsmCodeBase.Test.Red();
-            db["Green"] = new FsmCodeBase.Test.Green();
-            db["Blue"] = new FsmCodeBase.Test.Blue();
+            
+                db["Red"] = new Red();
+            
+                db["Green"] = new Green();
+            
+                db["Blue"] = new Blue();
+            
 
             return db;
         }
 
+        ///
+        /// Get State Data
+        ///
         public static BaseStateData GetStateData()
         {
             return new FsmColorStateData();

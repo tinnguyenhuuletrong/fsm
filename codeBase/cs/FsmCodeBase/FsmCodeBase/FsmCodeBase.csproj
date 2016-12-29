@@ -50,14 +50,14 @@
     <Compile Include="FsmCodeBase\StateMachine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\Logic\Blue.cs" />
+    <Compile Include="Test\FsmColor.Index.cs" />
+    <Compile Include="Test\FsmColor.StateData.cs" />
     <Compile Include="Test\Generated\Blue.Evaluate.cs" />
-    <Compile Include="Test\Fsm.Color.Index.cs" />
-    <Compile Include="Test\Fsm.Color.StateData.cs" />
-    <Compile Include="Test\Logic\Green.cs" />
     <Compile Include="Test\Generated\Green.Evaluate.cs" />
-    <Compile Include="Test\Logic\Red.cs" />
     <Compile Include="Test\Generated\Red.Evaluate.cs" />
+    <Compile Include="Test\Logic\Blue.cs" />
+    <Compile Include="Test\Logic\Green.cs" />
+    <Compile Include="Test\Logic\Red.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,6 +1,6 @@
 ﻿using System;
 using FsmCodeBase;
-
+using System.Collections.Generic;
 
 namespace Fsm.Generated.FsmColor
 {

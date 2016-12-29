@@ -192,12 +192,15 @@ function processingCS(FSMData) {
 
 		// State Logic Exit ignore it
 		if (!isFileExit(name)) {
-			exportContent("Generated/" + name + ".cs", stateLogicRender, itm)
+			exportContent("Generated/" + name + ".Evaluate.cs", stateLogicRender, itm)
 		}
 
-		exportContent("Logic/" + name + ".Evaluate.cs", stateEvalRender, itm)
+		exportContent("Logic/" + name + ".cs", stateEvalRender, itm)
 	})
 
 	exportContent(fsmName + ".Index.cs", stateIndexRender, indexData)
-	exportContent(fsmName + ".StateData.cs", stateDataRender, indexData)
+
+	// State Data Exit ignore it
+	if (!isFileExit(fsmName + ".StateData.cs"))
+		exportContent(fsmName + ".StateData.cs", stateDataRender, indexData)
 }
