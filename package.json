@@ -1,6 +1,6 @@
 {
-  "name": "ttin-fsm",
-  "version": "1.0.0",
+  "name": "yedfsm",
+  "version": "1.0.1",
   "description": "Finite State Machine",
   "main": "fsm.js",
   "scripts": {
@@ -21,9 +21,12 @@
   "homepage": "https://github.com/tinnguyenhuuletrong/fsm#readme",
   "dependencies": {
     "dot": "^1.1.1",
+    "fs-extra": "^1.0.0",
     "xml2js": "^0.4.16"
   },
   "bin": {
-    "convertfsm": "bin/convert.js"
+    "convertfsm": "bin/convert.js",
+    "fsm2code": "bin/codeBaseGenerate.js",
+    "fsminit": "bin/codeBaseInit.js"
   }
 }
