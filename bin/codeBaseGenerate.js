@@ -191,11 +191,11 @@ function processingCS(FSMData) {
 		const name = itm.StateName
 
 		// State Logic Exit ignore it
-		if (!isFileExit(name)) {
-			exportContent("Generated/" + name + ".Evaluate.cs", stateLogicRender, itm)
+		if (!isFileExit("Logic/" + name + ".cs")) {
+			exportContent("Logic/" + name + ".cs", stateEvalRender, itm)
 		}
 
-		exportContent("Logic/" + name + ".cs", stateEvalRender, itm)
+		exportContent("Generated/" + name + ".Evaluate.cs", stateLogicRender, itm)
 	})
 
 	exportContent(fsmName + ".Index.cs", stateIndexRender, indexData)
