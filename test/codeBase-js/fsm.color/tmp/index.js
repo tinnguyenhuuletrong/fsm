@@ -7,6 +7,12 @@ module.exports = {
 		
 			Blue: require("./Blue"),
 		
+			AnyState: require("./AnyState"),
+		
+			Yellow: require("./Yellow"),
+		
+			PopState: require("./PopState"),
+		
 	},
 	default: "Red"
 }
